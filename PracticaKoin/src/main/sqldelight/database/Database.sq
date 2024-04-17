@@ -1,0 +1,43 @@
+-- Database: Tablas y Operaciones CRUD
+
+-- Tabla de Alumnos
+CREATE TABLE IF NOT EXISTS Alumnos (
+    id INTEGER PRIMARY KEY,
+    nombre TEXT NOT NULL,
+    nota REAL NOT NULL
+);
+
+-- Operaciones CRUD para la tabla de Alumnos
+removeAllAlumnos:
+DELETE FROM Alumnos;
+
+selectAllAlumnos:
+SELECT * FROM Alumnos;
+
+selectAlumnoById:
+SELECT * FROM Alumnos WHERE id = ?;
+
+
+-- De esta manera podremos hacerlo sin transacciones
+-- selectLastInserted:
+-- SELECT * FROM Alumnos ORDER BY id DESC LIMIT 1;
+
+-- selectLastInserted:
+-- SELECT * FROM Alumnos WHERE id = (SELECT MAX(id) FROM Alumnos);
+
+-- De esta manera podremos hacerlo con transacciones usando la función last_insert_rowid() de SQLite
+selectAlumnoLastInserted:
+SELECT * FROM Alumnos WHERE id = last_insert_rowid();
+
+insertAlumno:
+INSERT INTO Alumnos (nombre, nota) VALUES (?, ?);
+
+-- insertAlumnos:
+-- INSERT INTO Alumnos (nombre, nota) VALUES ?;
+
+updateAlumno:
+UPDATE Alumnos SET nombre = ?, nota = ? WHERE id = ?;
+
+deleteAlumno:
+DELETE FROM Alumnos WHERE id = ?;
+
